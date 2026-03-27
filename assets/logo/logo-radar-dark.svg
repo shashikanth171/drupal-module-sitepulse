@@ -1,0 +1,67 @@
+<svg width="1200" height="400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 80" role="img" aria-label="SitePulse API monitoring SaaS platform - Dark theme">
+  <defs>
+    <linearGradient id="coreGradientDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8b9eff"/>
+      <stop offset="100%" stop-color="#d666f0"/>
+    </linearGradient>
+    <linearGradient id="accentGradientDark" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#8b9eff"/>
+      <stop offset="100%" stop-color="#ff87ff"/>
+    </linearGradient>
+    <filter id="softGlowDark">
+      <feGaussianBlur stdDeviation="1.2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <style>
+      @keyframes radarSpin {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+      }
+      @keyframes pulse {
+        0%, 100% { opacity: 0.5; r: 2.5px; }
+        50% { opacity: 1; r: 3.5px; }
+      }
+      @keyframes sweep {
+        from { stroke-dashoffset: 0; }
+        to { stroke-dashoffset: -60; }
+      }
+      .radar-icon { animation: radarSpin 12s linear infinite; transform-origin: 40px 40px; }
+      .pulse-node { animation: pulse 3s ease-in-out infinite; }
+      .sweep-line { animation: sweep 3s linear infinite; }
+    </style>
+  </defs>
+
+  <!-- Subtle background -->
+  <circle cx="40" cy="40" r="31" fill="none" stroke="url(#coreGradientDark)" stroke-width="0.4" opacity="0.15"/>
+
+  <!-- Modern monitoring icon: concentric circles -->
+  <g class="radar-icon">
+    <circle cx="40" cy="40" r="28" fill="none" stroke="url(#coreGradientDark)" stroke-width="2"/>
+    <circle cx="40" cy="40" r="18" fill="none" stroke="url(#coreGradientDark)" stroke-width="1" opacity="0.85"/>
+    <circle cx="40" cy="40" r="8" fill="none" stroke="url(#coreGradientDark)" stroke-width="0.8" opacity="0.65"/>
+  </g>
+
+  <!-- Central core -->
+  <circle cx="40" cy="40" r="3" fill="url(#coreGradientDark)" filter="url(#softGlowDark)"/>
+
+  <!-- API nodes representing distributed monitoring -->
+  <circle cx="62" cy="32" r="3" fill="#8b9eff" filter="url(#softGlowDark)" class="pulse-node" style="animation-delay: 0s;"/>
+  <circle cx="40" cy="16" r="3" fill="#8b9eff" filter="url(#softGlowDark)" class="pulse-node" style="animation-delay: 0.7s;"/>
+  <circle cx="18" cy="32" r="3" fill="#ff87ff" filter="url(#softGlowDark)" class="pulse-node" style="animation-delay: 1.4s;"/>
+  <circle cx="40" cy="62" r="3" fill="#d666f0" filter="url(#softGlowDark)" class="pulse-node" style="animation-delay: 2.1s;"/>
+
+  <!-- Connection lines to node: represents API connectivity -->
+  <line x1="40" y1="40" x2="62" y2="32" stroke="url(#accentGradientDark)" stroke-width="1" opacity="0.7"/>
+  <line x1="40" y1="40" x2="40" y2="16" stroke="url(#accentGradientDark)" stroke-width="1" opacity="0.7"/>
+  <line x1="40" y1="40" x2="18" y2="32" stroke="url(#accentGradientDark)" stroke-width="1" opacity="0.7"/>
+  <line x1="40" y1="40" x2="40" y2="62" stroke="url(#accentGradientDark)" stroke-width="1" opacity="0.7"/>
+
+  <!-- Animated sweep line for monitoring concept -->
+  <circle cx="40" cy="40" r="24" fill="none" stroke="url(#accentGradientDark)" stroke-width="1.5" opacity="0.75" class="sweep-line" stroke-dasharray="30" stroke-dashoffset="0"/>
+
+  <!-- Logo text - VERTICALLY CENTERED -->
+  <text x="80" y="40" font-family="Inter, -apple-system, BlinkMacSystemFont, sans-serif" font-size="29" font-weight="700" fill="#f0f4ff" letter-spacing="-0.5" dominant-baseline="middle">SitePulse</text>
+</svg>
