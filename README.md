@@ -1,5 +1,7 @@
 # SitePulse
 
+![SitePulse - animated radar icon with concentric circles and pulsing nodes connected by lines to a central core, representing API monitoring and distributed system connectivity, with SitePulse text in professional sans-serif font](./assets/logo/logo-radar-light.svg)
+
 SitePulse exposes Drupal's site status report data as a structured JSON API.
 It provides machine-readable access to the same information shown on the
 Administration > Reports > Status report page, enabling monitoring dashboards,
@@ -181,4 +183,4 @@ time since status checks run on every request.
 
 ## Maintainers
 
-- [Your Name](https://www.drupal.org/u/your-username)
+- [Shashikanth Palvatla](https://www.drupal.org/u/shashikanth171)
