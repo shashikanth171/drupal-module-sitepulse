@@ -1,0 +1,4 @@
+cache_ttl: 60
+denylist:
+  - database_system
+  - database_system_version

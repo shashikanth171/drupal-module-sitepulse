@@ -1,0 +1,8 @@
+services:
+  sitepulse.status_collector:
+    class: Drupal\sitepulse\Service\StatusCollector
+    arguments:
+      - '@system.manager'
+      - '@cache.default'
+      - '@config.factory'
+      - '@datetime.time'

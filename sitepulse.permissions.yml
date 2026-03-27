@@ -1,0 +1,4 @@
+access sitepulse api:
+  title: 'Access SitePulse API'
+  description: 'Retrieve site status report data via the SitePulse JSON API.'
+  restrict access: true

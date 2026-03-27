@@ -1,0 +1,22 @@
+sitepulse.settings:
+  type: config_object
+  label: 'SitePulse settings'
+  constraints:
+    FullyValidatable: ~
+  mapping:
+    cache_ttl:
+      type: integer
+      label: 'Cache TTL (seconds)'
+      constraints:
+        Range:
+          min: 0
+    denylist:
+      type: sequence
+      label: 'Denylist'
+      sequence:
+        type: string
+        label: 'Machine name'
+        constraints:
+          Regex:
+            pattern: '/^[a-z][a-z0-9_]*$/'
+            message: 'Must be a valid machine name (lowercase alphanumeric and underscores).'

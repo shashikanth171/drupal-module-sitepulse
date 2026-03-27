@@ -1,0 +1,38 @@
+sitepulse.status:
+  path: '/api/sitepulse/v1/status'
+  defaults:
+    _controller: '\Drupal\sitepulse\Controller\StatusController::status'
+  requirements:
+    _permission: 'access sitepulse api'
+  options:
+    _auth:
+      - basic_auth
+      - cookie
+    no_cache: TRUE
+
+sitepulse.status_summary:
+  path: '/api/sitepulse/v1/status/summary'
+  defaults:
+    _controller: '\Drupal\sitepulse\Controller\StatusController::summary'
+  requirements:
+    _permission: 'access sitepulse api'
+  options:
+    _auth:
+      - basic_auth
+      - cookie
+    no_cache: TRUE
+
+sitepulse.openapi:
+  path: '/api/sitepulse/v1/openapi.json'
+  defaults:
+    _controller: '\Drupal\sitepulse\Controller\StatusController::openapi'
+  requirements:
+    _access: 'TRUE'
+
+sitepulse.settings:
+  path: '/admin/config/system/sitepulse'
+  defaults:
+    _form: '\Drupal\sitepulse\Form\SettingsForm'
+    _title: 'SitePulse Settings'
+  requirements:
+    _permission: 'administer site configuration'
