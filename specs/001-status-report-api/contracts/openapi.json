@@ -1,0 +1,259 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "SitePulse API",
+    "description": "Exposes Drupal site status report data as structured JSON.",
+    "version": "1.0.0",
+    "license": {
+      "name": "GPL-2.0-or-later",
+      "url": "https://www.gnu.org/licenses/gpl-2.0.html"
+    }
+  },
+  "servers": [
+    {
+      "url": "/api/sitepulse/v1",
+      "description": "SitePulse API v1"
+    }
+  ],
+  "paths": {
+    "/status": {
+      "get": {
+        "operationId": "getStatus",
+        "summary": "Retrieve full site status report",
+        "description": "Returns all status report entries as structured JSON. Supports filtering by severity level.",
+        "parameters": [
+          {
+            "name": "severity",
+            "in": "query",
+            "description": "Filter entries by severity. Comma-separated list of: ok, warning, error, info.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "error,warning"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Status report data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatusResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid severity filter value",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden — missing 'access sitepulse api' permission"
+          }
+        },
+        "security": [
+          { "basicAuth": [] },
+          { "cookieAuth": [] }
+        ]
+      }
+    },
+    "/status/summary": {
+      "get": {
+        "operationId": "getStatusSummary",
+        "summary": "Retrieve summary health check",
+        "description": "Returns the overall site health severity and counts per severity level. Lightweight endpoint for frequent polling.",
+        "responses": {
+          "200": {
+            "description": "Summary health data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SummaryResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden — missing 'access sitepulse api' permission"
+          }
+        },
+        "security": [
+          { "basicAuth": [] },
+          { "cookieAuth": [] }
+        ]
+      }
+    },
+    "/openapi.json": {
+      "get": {
+        "operationId": "getOpenApiSpec",
+        "summary": "OpenAPI specification",
+        "description": "Returns this OpenAPI 3.0 specification document.",
+        "responses": {
+          "200": {
+            "description": "OpenAPI JSON document",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "StatusEntry": {
+        "type": "object",
+        "required": ["machine_name", "title", "severity"],
+        "properties": {
+          "machine_name": {
+            "type": "string",
+            "description": "Unique stable identifier from Drupal's internal key.",
+            "example": "php"
+          },
+          "title": {
+            "type": "string",
+            "description": "Human-readable name of the status check.",
+            "example": "PHP"
+          },
+          "value": {
+            "type": "string",
+            "description": "Current value reported by the check.",
+            "example": "8.3.6"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true,
+            "description": "Additional details about the status entry.",
+            "example": null
+          },
+          "severity": {
+            "type": "string",
+            "enum": ["ok", "warning", "error", "info"],
+            "description": "Severity level of this status entry.",
+            "example": "ok"
+          }
+        }
+      },
+      "StatusResponse": {
+        "type": "object",
+        "required": ["data", "meta"],
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StatusEntry"
+            }
+          },
+          "meta": {
+            "type": "object",
+            "required": ["count", "generated"],
+            "properties": {
+              "count": {
+                "type": "integer",
+                "description": "Number of entries in the response.",
+                "example": 42
+              },
+              "generated": {
+                "type": "string",
+                "format": "date-time",
+                "description": "ISO 8601 timestamp when the data was generated.",
+                "example": "2026-03-28T14:30:00+00:00"
+              }
+            }
+          }
+        }
+      },
+      "SummaryResponse": {
+        "type": "object",
+        "required": ["data", "meta"],
+        "properties": {
+          "data": {
+            "type": "object",
+            "required": ["overall_severity", "counts", "total"],
+            "properties": {
+              "overall_severity": {
+                "type": "string",
+                "enum": ["ok", "info", "warning", "error"],
+                "description": "Worst severity across all status entries.",
+                "example": "warning"
+              },
+              "counts": {
+                "type": "object",
+                "properties": {
+                  "ok": { "type": "integer", "example": 35 },
+                  "info": { "type": "integer", "example": 3 },
+                  "warning": { "type": "integer", "example": 4 },
+                  "error": { "type": "integer", "example": 0 }
+                }
+              },
+              "total": {
+                "type": "integer",
+                "description": "Total number of status entries.",
+                "example": 42
+              }
+            }
+          },
+          "meta": {
+            "type": "object",
+            "required": ["generated"],
+            "properties": {
+              "generated": {
+                "type": "string",
+                "format": "date-time",
+                "description": "ISO 8601 timestamp when the data was generated.",
+                "example": "2026-03-28T14:30:00+00:00"
+              }
+            }
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "required": ["error"],
+        "properties": {
+          "error": {
+            "type": "object",
+            "required": ["message", "code"],
+            "properties": {
+              "message": {
+                "type": "string",
+                "description": "Human-readable error description.",
+                "example": "Invalid severity filter: 'critical'. Valid values: ok, warning, error, info."
+              },
+              "code": {
+                "type": "integer",
+                "description": "HTTP status code.",
+                "example": 400
+              }
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic",
+        "description": "HTTP Basic Authentication via Drupal's basic_auth module."
+      },
+      "cookieAuth": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "SESS*",
+        "description": "Drupal session cookie authentication."
+      }
+    }
+  }
+}

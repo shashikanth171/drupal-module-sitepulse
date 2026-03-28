@@ -1,0 +1,5 @@
+sitepulse.settings:
+  title: 'SitePulse'
+  description: 'Configure SitePulse API settings.'
+  route_name: sitepulse.settings
+  parent: system.admin_config_system

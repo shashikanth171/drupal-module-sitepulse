@@ -1,0 +1,10 @@
+name: SitePulse
+type: module
+description: 'Exposes Drupal site status report data via a REST JSON API.'
+package: Web services
+core_version_requirement: ^11
+dependencies:
+  - drupal:system
+  - drupal:basic_auth
+  - drupal:user
+configure: sitepulse.settings
